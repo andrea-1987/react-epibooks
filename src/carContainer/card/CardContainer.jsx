@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { CardDefault } from "./MyCard";
 import { Input } from "@material-tailwind/react";
+import { Loader } from "../../loader/loarder";
 
 export const CardContainer = () => {
   const [books, setBooks] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const maxCardToShow = 20;
 
   useEffect(() => {
     const getBooks = async () => {
+      setLoading(true);
       try {
         const response = await fetch("https://epibooks.onrender.com/");
         const data = await response.json();
@@ -17,6 +21,8 @@ export const CardContainer = () => {
         setFilteredData(data.slice(0, maxCardToShow));
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getBooks();
@@ -35,8 +41,9 @@ export const CardContainer = () => {
 
   return (
     <div>
+      {loading && <Loader />} 
       <Input
-        name="search"
+        name="name"
         label="Search"
         value={inputValue}
         onChange={onChangeInput}
