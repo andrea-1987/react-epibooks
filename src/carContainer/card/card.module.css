@@ -1,0 +1,6 @@
+.borderCard{
+    border: 1px solid red;
+}
+.myCard:hover{
+transform: scale(1,1.1);
+}
